@@ -60,19 +60,6 @@ public class MineSweeper {
         }
     }
 
-    private boolean isWin (){
-        int totalCells = this.col * this.row;
-        int mineCount = totalCells / 4;
-        int uncoveredCells = 0;
-
-        for(int i = 0; i < this.row; ++i)
-            for(int k = 0; k < this.col; ++k)
-                if( !this.map[i][k].equals(" - ") )
-                    uncoveredCells++;
-
-        return uncoveredCells == (totalCells - mineCount);
-    }
-
     private void editMap(int row, int col){
         int mineCount = 0;
         for(int i = -1; i <= 1; ++i){
@@ -91,33 +78,6 @@ public class MineSweeper {
         this.map[row][col] = " " + mineCount + " ";
     }
 
-    private void editMap1 (int row, int col) {
-        int mineCount = 0;
-        for(int i = 0; i < this.row; ++i)
-            for(int k = 0; k < this.col; ++k)
-                if( ((i + k) >= (row + col - 2)) && ((i + k) <= (row + col + 2)) )
-                    if (this.mineMap[i][k].equals(" * "))
-                        mineCount++;
-
-        String strMineCount = " " + String.valueOf(mineCount) + " ";
-        this.map[row][col] = strMineCount;
-    }
-
-
-
-    private boolean isSelected (int row, int col) {
-        return !this.map[row][col].equals(" - ");
-    }
-
-    private boolean isLose (int row, int col) {
-        if(this.mineMap[row][col].equals(" * ")){
-            System.out.println("You have chosen a mined coordinate... You lost the game.");
-            return true;
-        }
-        else
-            return false;
-    }
-
     private void placeMines(){
         int minesToPlace = (this.row * this.col) / 4;
         int placedMines = 0;
@@ -131,6 +91,30 @@ public class MineSweeper {
                 placedMines++;
             }
         }
+    }
+
+    private boolean isSelected (int row, int col) {
+        return !this.map[row][col].equals(" - ");
+    }
+    private boolean isWin (){
+        int totalCells = this.col * this.row;
+        int mineCount = totalCells / 4;
+        int uncoveredCells = 0;
+
+        for(int i = 0; i < this.row; ++i)
+            for(int k = 0; k < this.col; ++k)
+                if( !this.map[i][k].equals(" - ") )
+                    uncoveredCells++;
+
+        return uncoveredCells == (totalCells - mineCount);
+    }
+    private boolean isLose (int row, int col) {
+        if(this.mineMap[row][col].equals(" * ")){
+            System.out.println("You have chosen a mined coordinate... You lost the game.");
+            return true;
+        }
+        else
+            return false;
     }
 
     private int getRow() {
